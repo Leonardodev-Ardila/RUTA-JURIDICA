@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RUTA JURÍDICA · Demo del prototipo</title>
+<style>
+:root{--navy:#193957;--gold:#d4a017;--bg:#eef2f6;--card:#ffffff;--pale:#e8eef4;--text:#35404c;--muted:#65717e;--on-navy:#ffffff;--btn-text:#193957;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1c29;--card:#17293b;--pale:#223a52;--text:#dbe5ee;--muted:#9fb0c0;--navy:#8fb4d9}}
+:root[data-theme="dark"]{--bg:#0f1c29;--card:#17293b;--pale:#223a52;--text:#dbe5ee;--muted:#9fb0c0;--navy:#8fb4d9}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.45}
+.wrap{max-width:420px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+.top{background:#193957;color:#fff;padding:14px 18px;display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.04em;font-size:13px}
+.top .logo{background:var(--gold);color:#193957;border-radius:50%;width:28px;height:28px;display:grid;place-items:center;font-size:12px}
+.top button{margin-left:auto;background:none;border:1px solid #5a7791;color:#fff;border-radius:8px;padding:4px 10px;font-size:12px;cursor:pointer}
+main{flex:1;padding:22px 18px}
+h1{font-size:24px;line-height:1.2;color:var(--navy);margin:0 0 10px}
+h2{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin:22px 0 8px}
+p{margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--pale);border-radius:14px;padding:14px 16px;margin-bottom:10px;width:100%;text-align:left;color:var(--text);font:inherit}
+button.card{cursor:pointer}
+button.card:hover:not([disabled]){border-color:var(--gold)}
+button.card[disabled]{opacity:.55;cursor:not-allowed}
+.card b{display:block;color:var(--navy);font-size:16px}
+.card span{font-size:13px;color:var(--muted)}
+.cta{display:block;width:100%;background:var(--gold);color:var(--btn-text);border:0;border-radius:12px;padding:14px;font-weight:700;font-size:15px;cursor:pointer;margin-top:8px}
+.back{background:none;border:0;color:var(--muted);font-size:14px;cursor:pointer;padding:0;margin-bottom:14px}
+.step{display:flex;gap:12px;margin-bottom:12px}
+.num{flex:none;width:30px;height:30px;border-radius:50%;background:var(--gold);color:#193957;font-weight:700;display:grid;place-items:center;font-size:14px}
+.step b{color:var(--navy);display:block}
+.step span{font-size:14px}
+ul{padding-left:20px;margin:0 0 10px}
+a{color:var(--navy)}
+.note{font-size:12px;color:var(--muted);padding:0 18px 18px}
+.crumbs{font-size:12px;color:var(--muted);margin-bottom:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><div class="logo">RJ</div>RUTA JURÍDICA<button id="theme" aria-label="Cambiar tema">◐</button></div>
+  <main id="app"></main>
+  <div class="note">Demo de un prototipo académico (UNAB · Interacción Digital). Contenido preliminar y orientativo; no sustituye la asesoría jurídica profesional ni promete resultados. Verifica siempre en las fuentes oficiales.</div>
+</div>
+<script>
+var AREAS = {
+  laboral:{n:"Laboral",d:"Salarios, contratos y despidos",items:[
+    {t:"No me han pagado el salario",r:"salario"},{t:"Contrato y despido",r:null}]},
+  familia:{n:"Familia",d:"Alimentos, custodia y visitas",items:[
+    {t:"Necesito establecer una cuota alimentaria",r:"alimentos"},{t:"Custodia y visitas",r:null}]},
+  civil:{n:"Civil",d:"Arriendos, deudas y contratos",items:[
+    {t:"Tengo un problema con un contrato",r:"contrato"},{t:"Arriendo y deudas",r:null}]}
+};
+var RUTAS = {
+  salario:{area:"Laboral",t:"¿Qué hacer si no me pagan el salario?",
+    steps:[["Solicitar el pago","Puede hacerse verbalmente o por escrito al empleador. Conviene dejar constancia."],
+           ["Acudir a la inspección de trabajo","Orientación, queja y, según el caso, conciliación sobre derechos negociables."],
+           ["Valorar la vía judicial","Si no se resuelve, puede acudirse al juez laboral para que decida."]],
+    docs:["Contrato de trabajo, si existe","Comprobantes de pago","Comunicaciones con el empleador","Relación de valores y fechas pendientes"],
+    ents:[["Inspectoría de Trabajo","Orientación y quejas laborales."],["Centro de conciliación","Intento de acuerdo en asuntos conciliables."]],
+    src:["Ministerio de Justicia y del Derecho (2018). LegalApp: ¿Qué hacer si mi jefe no paga el sueldo o las prestaciones sociales?","https://www.minjusticia.gov.co/programas-co/LegalApp/Paginas/Que-hacer-si-mi-jefe-no-paga-el-sueldo-o-las-prestaciones-sociales.aspx"]},
+  alimentos:{area:"Familia",t:"¿Cómo se establece una cuota de alimentos?",
+    steps:[["Acudir a la Defensoría de Familia","El ICBF ofrece el servicio de fijación de cuota de alimentos para niños, niñas y adolescentes."],
+           ["Buscar un acuerdo","Los centros de conciliación permiten intentar un acuerdo en asuntos conciliables."],
+           ["Valorar la vía judicial","Si no hay acuerdo, puede ser necesario acudir a la jurisdicción de familia."]],
+    docs:["Documento de identidad","Registro civil del niño, niña o adolescente","Información sobre ingresos y gastos, si se tiene"],
+    ents:[["ICBF / Defensoría de Familia","Asuntos de alimentos de niños, niñas y adolescentes."],["Centro de conciliación","Intento de acuerdo en asuntos conciliables."]],
+    src:["Instituto Colombiano de Bienestar Familiar (2025). Fijación de cuota de alimentos.","https://www.icbf.gov.co/portafolio-de-servicios-icbf/fijacion-cuota-de-alimentos"]},
+  contrato:{area:"Civil",t:"¿Qué hacer si me incumplen un contrato?",
+    steps:[["Revisar el contrato y reunir pruebas","Identifica qué se pactó, qué se incumplió y guarda los soportes."],
+           ["Intentar una conciliación","Es un mecanismo para buscar un acuerdo con ayuda de un tercero."],
+           ["Valorar la vía judicial","Si no hay acuerdo, puede ser necesario acudir a la jurisdicción competente."]],
+    docs:["Contrato firmado o pruebas del acuerdo","Comunicaciones con la otra parte","Comprobantes de pago o de cumplimiento"],
+    ents:[["Centro de conciliación","Mecanismo de solución de conflictos conciliables."]],
+    src:["Ministerio de Justicia y del Derecho (2017). LegalApp: ¿Qué hacer si me incumplen un contrato?","https://www.minjusticia.gov.co/programas-co/LegalApp/Paginas/Que-hacer-si-me-incumplen-un-contrato.aspx"]}
+};
+var app = document.getElementById("app");
+function go(fn){ fn(); window.scrollTo(0,0); }
+function home(){
+  app.innerHTML = '<h1>¿Cómo podemos orientarte?</h1><p>Consulta tus derechos en lenguaje claro y encuentra orientación sobre situaciones jurídicas cotidianas.</p><button class="cta" id="b1">Explorar áreas jurídicas</button><h2>Cómo funciona</h2><p>1. Elige un área. 2. Cuéntanos qué ocurre. 3. Recibe una ruta con pasos, documentos y entidades.</p>';
+  document.getElementById("b1").onclick = function(){ go(areas); };
+}
+function areas(){
+  var h = '<button class="back" id="bk">← Inicio</button><h1>Selecciona un área</h1>';
+  Object.keys(AREAS).forEach(function(k){ h += '<button class="card" data-k="'+k+'"><b>'+AREAS[k].n+'</b><span>'+AREAS[k].d+'</span></button>'; });
+  app.innerHTML = h;
+  document.getElementById("bk").onclick = function(){ go(home); };
+  app.querySelectorAll("[data-k]").forEach(function(b){ b.onclick = function(){ go(function(){ situ(b.dataset.k); }); }; });
+}
+function situ(k){
+  var a = AREAS[k];
+  var h = '<button class="back" id="bk">← Áreas</button><div class="crumbs">'+a.n+'</div><h1>Cuéntanos qué ocurre</h1><p>¿Qué situación se parece a la tuya?</p>';
+  a.items.forEach(function(it,i){
+    h += '<button class="card" data-i="'+i+'"'+(it.r?'':' disabled')+'><b>'+it.t+'</b>'+(it.r?'':'<span>Próximamente en el prototipo</span>')+'</button>';
+  });
+  app.innerHTML = h;
+  document.getElementById("bk").onclick = function(){ go(areas); };
+  app.querySelectorAll("[data-i]").forEach(function(b){ b.onclick = function(){ go(function(){ ruta(a.items[b.dataset.i].r, k); }); }; });
+}
+function ruta(id,k){
+  var r = RUTAS[id];
+  var h = '<button class="back" id="bk">← Situaciones</button><div class="crumbs">'+r.area+' · Ruta explicativa</div><h1>'+r.t+'</h1><h2>Pasos</h2>';
+  r.steps.forEach(function(s,i){ h += '<div class="step"><div class="num">'+(i+1)+'</div><div><b>'+s[0]+'</b><span>'+s[1]+'</span></div></div>'; });
+  h += '<h2>Documentos que pueden ayudar</h2><ul>'+r.docs.map(function(d){return '<li>'+d+'</li>';}).join("")+'</ul>';
+  h += '<h2>Entidades a las que puedes acudir</h2>'+r.ents.map(function(e){return '<div class="card"><b>'+e[0]+'</b><span>'+e[1]+'</span></div>';}).join("");
+  h += '<h2>Fuente institucional</h2><p><a href="'+r.src[1]+'" target="_blank" rel="noopener">'+r.src[0]+'</a></p>';
+  h += '<button class="cta" id="b2">Volver al inicio</button>';
+  app.innerHTML = h;
+  document.getElementById("bk").onclick = function(){ go(function(){ situ(k); }); };
+  document.getElementById("b2").onclick = function(){ go(home); };
+}
+document.getElementById("theme").onclick = function(){
+  var d = document.documentElement, dark = getComputedStyle(d).getPropertyValue("--bg").trim() === "#0f1c29";
+  d.setAttribute("data-theme", dark ? "light" : "dark");
+};
+home();
+</script>
+</body>
+</html>
